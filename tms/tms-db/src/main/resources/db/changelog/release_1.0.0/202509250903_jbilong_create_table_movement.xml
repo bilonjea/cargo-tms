@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="202509250903_jbilong_create_table_movement" author="jbilong">
+        <createTable tableName="movement" schemaName="tms">
+            <column name="id" type="BIGINT" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="movement_type" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movement_time" type="TIMESTAMP WITH TIME ZONE" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="customs_status" type="VARCHAR(16)"/>
+
+            <column name="declared_in_id" type="BIGINT"/>
+            <column name="from_warehouse_id" type="BIGINT"/>
+            <column name="to_warehouse_id" type="BIGINT"/>
+            <column name="goods_id" type="BIGINT"/>
+            <column name="customs_document_id" type="BIGINT"/>
+        </createTable>
+
+        <!-- Indexes -->
+        <createIndex indexName="ix_movement_time"
+                     schemaName="tms"
+                     tableName="movement">
+            <column name="movement_time"/>
+        </createIndex>
+
+        <!-- FK vers warehouse -->
+        <addForeignKeyConstraint constraintName="fk_movement_declared_in"
+                                 baseTableSchemaName="tms"
+                                 baseTableName="movement"
+                                 baseColumnNames="declared_in_id"
+                                 referencedTableName="warehouse"
+                                 referencedColumnNames="id"
+                                 onDelete="RESTRICT"
+                                 />
+        <addForeignKeyConstraint constraintName="fk_movement_from_wh"
+                                 baseTableSchemaName="tms"
+                                 baseTableName="movement"
+                                 baseColumnNames="from_warehouse_id"
+                                 referencedTableName="warehouse"
+                                 referencedColumnNames="id"
+                                 onDelete="RESTRICT"/>
+        <addForeignKeyConstraint constraintName="fk_movement_to_wh"
+                                 baseTableSchemaName="tms"
+                                 baseTableName="movement"
+                                 baseColumnNames="to_warehouse_id"
+                                 referencedTableName="warehouse"
+                                 referencedColumnNames="id"
+                                 onDelete="RESTRICT"/>
+
+        <!-- FK vers goods -->
+        <addForeignKeyConstraint constraintName="fk_movement_goods"
+                                 baseTableSchemaName="tms"
+                                 baseTableName="movement"
+                                 baseColumnNames="goods_id"
+                                 referencedTableName="goods"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <!-- FK vers customs_document -->
+        <addForeignKeyConstraint constraintName="fk_movement_customs_doc"
+                                 baseTableSchemaName="tms"
+                                 baseTableName="movement"
+                                 baseColumnNames="customs_document_id"
+                                 referencedTableName="customs_document"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+    <!-- Enum CHECK constraint -->
+    <changeSet id="202509250903_jbilong_ck_movement_type" author="jbilong">
+        <sql>alter table tms.movement add constraint ck_movement_type check (movement_type in ('IN','OUT'));</sql>
+    </changeSet>
+</databaseChangeLog>

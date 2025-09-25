@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="init_schema" author="jbilong">
+        <sqlFile dbms="postgresql"
+                 path="postgresql/init-schema.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+    <!-- Tables de domaine (ordre: warehouse -> goods -> customs_document -> movement) -->
+    <include file="db/changelog/release_1.0.0/202509250900_jbilong_create_table_warehouse.xml" author="jbilong"/>
+    <include file="db/changelog/release_1.0.0/202509250901_jbilong_create_table_goods.xml" author="jbilong" />
+    <include file="db/changelog/release_1.0.0/202509250902_jbilong_create_table_customs_document.xml" author="jbilong"/>
+    <include file="db/changelog/release_1.0.0/202509250903_jbilong_create_table_movement.xml" author="jbilong"/>
+</databaseChangeLog>

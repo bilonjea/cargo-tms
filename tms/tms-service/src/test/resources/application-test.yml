@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: tms-service
+
+  # Désactive le mail pendant les tests (si besoin)
+  mail:
+    host: 127.0.0.1
+    port: 2525
+
+  boot:
+    admin:
+      client:
+        url: http://localhost:9000/tms-sb-admin  # adresse de Spring Boot Admin
+        instance:
+          prefer-ip: true
+        metadata:
+          user.name: admin
+          user.password: admin
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:cargo;IGNORECASE=TRUE;MODE=PostgreSQL;DB_CLOSE_DELAY=0;DATABASE_TO_UPPER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;INIT=CREATE SCHEMA IF NOT EXISTS tms
+    username: sa
+    password:
+  liquibase:
+    enabled: true
+    drop-first: false
+    contexts: hsqldb
+    default-schema: tms
+  jpa:
+    database: H2
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        type:
+          preferred_uuid_jdbc_type: BINARY
+
+
+server:
+  servlet:
+    context-path: /tms-service_v1
+    encoding:
+      charset: UTF-8
+    session:
+      timeout: 60s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"        # expose tous les endpoints actuators
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+    git:
+      mode: full
+
+
+app:
+  mail:
+    enabled: false
+

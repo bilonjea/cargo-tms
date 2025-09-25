@@ -1,0 +1,13 @@
+app:
+  mail:
+    enabled: true
+    from: ${EMAIL_FROM:no-reply@company.com}
+    to: ${EMAIL_TO:ops@company.com}
+    subject: "Movement #{id}"
+
+  # Mailjet via bean MailjetClient (voir MailjetConfig)
+  # Variables d'env requises: MAILJET_API_KEY, MAILJET_API_SECRET
+  mailjet:
+    api-key: ${MAILJET_API_KEY:965fe0ed3aea948791a168cb122cb98f}
+    api-secret-key: ${MAILJET_API_SECRET:347a84454d85ff1bfa48c11eeab82e7a}
+    sandbox-mode: true

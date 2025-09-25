@@ -1,0 +1,13 @@
+spring:
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    properties.mail.smtp.auth: false
+    properties.mail.smtp.starttls.enable: false
+
+app:
+  mail:
+    enabled: true
+    from: no-reply@local.test
+    to: ${EMAIL_TO:dev@local.test}
+    subject: "Movement #{id}"

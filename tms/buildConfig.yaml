@@ -1,0 +1,3 @@
+project:
+  maven:
+    jdkId: JDK_21

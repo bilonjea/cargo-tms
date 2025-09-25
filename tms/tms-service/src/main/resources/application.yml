@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: tms-service
+
+  boot:
+    admin:
+      client:
+        url: http://localhost:9000/tms-sb-admin  # adresse de Spring Boot Admin
+        instance:
+          prefer-ip: true
+        metadata:
+          user.name: admin
+          user.password: admin
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:cargo}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  jpa:
+    hibernate:
+      ddl-auto: none            # Liquibase gère le schéma
+    properties:
+      hibernate.default_schema: tms
+    open-in-view: false
+
+  liquibase:
+    enabled: true
+    #change-log: classpath:db/changelog/db.changelog-master.yaml
+    #default-schema: tms
+    # contexts: prod            # (optionnel) si tu filtres par contextes
+
+server:
+  port: 8080
+  servlet:
+    context-path: /tms-service_v1
+    encoding:
+      charset: UTF-8
+    session:
+      timeout: 60s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"        # expose tous les endpoints actuators
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+    git:
+      mode: full
+
+springdoc:
+  api-docs:
+    enabled: true          # active la génération de /v3/api-docs
+    path: /v3/api-docs     # chemin pour la spec JSON
+  swagger-ui:
+    enabled: true          # active l'UI
+    path: /swagger-ui.html # URL de l'UI
+    operationsSorter: alpha   # trie les opérations (par nom)
+    tagsSorter: alpha         # trie les tags (par nom)
+    url: /openapi.yaml    # sert ton contrat YAML statique
+

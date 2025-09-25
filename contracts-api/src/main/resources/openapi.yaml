@@ -1,0 +1,322 @@
+openapi: 3.0.3
+info:
+  title: RapidCargo API
+  version: 1.0.0
+  description: >
+    API pour déclarer des mouvements (IN/OUT), lister les derniers mouvements,
+    exposer la disponibilité par référence et retourner des erreurs au format RFC 7807 (application/problem+json).
+servers:
+  - url: http://localhost:8080
+    description: Local dev
+
+tags:
+  - name: Movements
+    description: Déclaration et consultation des mouvements
+  - name: References
+    description: Disponibilité par référence
+  - name: Dev
+    description: Endpoints de fixtures (profil dev uniquement)
+
+paths:
+  /movements:
+    post:
+      tags: [Movements]
+      summary: Déclarer un mouvement (IN/OUT)
+      operationId: createMovement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovementCreateRequest'
+            examples:
+              inExample:
+                summary: Mouvement d'entrée (IN)
+                value:
+                  movementType: IN
+                  movementTime: "2025-09-24T10:03:00Z"
+                  createdBy: "jbilong"
+                  declaredIn: { code: "CDGRC1", label: "RapidCargo CDG" }
+                  fromWarehouse: { code: "CDGAF1", label: "Air Cargo CDG 1" }
+                  goods:
+                    refType: "AWB"
+                    refCode: "07712345678"
+                    quantity: 12
+                    weight: 345
+                    description: "ELECTRONICS"
+                    totalQuantity: 12
+                    totalWeight: 345
+                  customsStatus: "X"
+              outExample:
+                summary: Mouvement de sortie (OUT)
+                value:
+                  movementType: OUT
+                  movementTime: "2025-09-24T12:15:30Z"
+                  createdBy: "jbilong"
+                  declaredIn: { code: "CDGRC1", label: "RapidCargo CDG" }
+                  toWarehouse: { code: "CDGAF1", label: "Air Cargo CDG 1" }
+                  goods:
+                    refType: "AWB"
+                    refCode: "07712345678"
+                    quantity: 10
+                    weight: 290
+                    description: "ELECTRONICS"
+                    totalQuantity: 12
+                    totalWeight: 345
+                  customsStatus: "X"
+                  customsDocument: { type: "T1", ref: "098765432" }
+      responses:
+        '201':
+          description: Mouvement créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementResponse'
+        '400':
+          description: Requête invalide (validation de schéma / format)
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        '422':
+          description: Règle métier violée (ex. OUT > disponible, AWB invalide, IN > total)
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    get:
+      tags: [Movements]
+      summary: Lister les derniers mouvements
+      operationId: listMovements
+      parameters:
+        - name: limit
+          in: query
+          description: Nombre de mouvements (défaut 50, max 200)
+          required: false
+          schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+      responses:
+        '200':
+          description: Liste des mouvements triés du plus récent au plus ancien
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/MovementListItem' }
+
+  /references/{type}/{code}/availability:
+    get:
+      tags: [References]
+      summary: Obtenir la disponibilité (quantité/poids) pour une référence
+      operationId: getReferenceAvailability
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema: { $ref: '#/components/schemas/RefType' }
+        - name: code
+          in: path
+          required: true
+          schema: { type: string, maxLength: 64 }
+      responses:
+        '200':
+          description: Disponibilités courantes et cumuls
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReferenceAvailabilityResponse' }
+        '404':
+          description: Référence inconnue
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /dev/fixtures/load:
+    post:
+      tags: [Dev]
+      summary: Générer des données de démo (profil dev)
+      description: Génère N mouvements aléatoires (IN/OUT) avec Faker. À n'exposer qu'en développement.
+      operationId: loadFixtures
+      parameters:
+        - name: count
+          in: query
+          required: false
+          schema: { type: integer, default: 100, minimum: 1, maximum: 10000 }
+      responses:
+        '204':
+          description: Données générées
+        '400':
+          description: Paramètre invalide
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+
+  /dev/fixtures/clean:
+    post:
+      tags: [Dev]
+      summary: Nettoyer la base de démonstration (profil dev)
+      operationId: cleanFixtures
+      responses:
+        '204':
+          description: Base nettoyée
+
+components:
+  schemas:
+    # --- Domain/DTO ---
+    MovementCreateRequest:
+      type: object
+      required: [movementType, movementTime, createdBy, declaredIn, goods, customsStatus]
+      properties:
+        movementType: { $ref: '#/components/schemas/MovementType' }
+        movementTime: { type: string, format: date-time }
+        createdBy: { type: string, maxLength: 64 }
+        declaredIn: { $ref: '#/components/schemas/Warehouse' }
+        fromWarehouse:
+          $ref: '#/components/schemas/Warehouse'
+          description: Requis si movementType = IN
+        toWarehouse:
+          $ref: '#/components/schemas/Warehouse'
+          description: Requis si movementType = OUT
+        goods: { $ref: '#/components/schemas/Goods' }
+        customsStatus:
+          type: string
+          minLength: 1
+          maxLength: 1
+          description: Statut douanier (code 1 lettre)
+        customsDocument:
+          $ref: '#/components/schemas/CustomsDocument'
+          description: Requis si movementType = OUT
+      description: >
+        Requête de création d'un mouvement.
+        Règles métier (côté serveur) :
+        - quantity/weight ≤ totalQuantity/totalWeight
+        - si refType = AWB alors refCode = exactement 11 chiffres
+        - OUT ≤ disponible (Σ IN – Σ OUT)
+
+    MovementResponse:
+      allOf:
+        - $ref: '#/components/schemas/Movement'
+        - type: object
+          properties:
+            id: { type: string, description: Identifiant technique (UUID ou numérique) }
+            createdAt: { type: string, format: date-time }
+
+    MovementListItem:
+      allOf:
+        - $ref: '#/components/schemas/Movement'
+        - type: object
+          properties:
+            id: { type: string }
+            createdAt: { type: string, format: date-time }
+
+    Movement:
+      type: object
+      required: [movementType, movementTime, createdBy, declaredIn, goods, customsStatus]
+      properties:
+        movementType: { $ref: '#/components/schemas/MovementType' }
+        movementTime: { type: string, format: date-time }
+        createdBy: { type: string }
+        declaredIn: { $ref: '#/components/schemas/Warehouse' }
+        fromWarehouse: { $ref: '#/components/schemas/Warehouse' }
+        toWarehouse: { $ref: '#/components/schemas/Warehouse' }
+        goods: { $ref: '#/components/schemas/Goods' }
+        customsStatus: { type: string, minLength: 1, maxLength: 1 }
+        customsDocument: { $ref: '#/components/schemas/CustomsDocument' }
+
+    MovementType:
+      type: string
+      enum: [IN, OUT]
+
+    RefType:
+      type: string
+      description: Type de référence marchandise
+      enum: [AWB, OTHER]
+
+    Warehouse:
+      type: object
+      required: [code, label]
+      properties:
+        code: { type: string, maxLength: 16 }
+        label: { type: string, maxLength: 128 }
+
+    Goods:
+      type: object
+      required: [refType, refCode, quantity, weight, totalQuantity, totalWeight]
+      properties:
+        refType: { $ref: '#/components/schemas/RefType' }
+        refCode:
+          type: string
+          maxLength: 64
+          description: >
+            Si refType = AWB, alors refCode doit être exactement 11 chiffres (contrôle dynamique côté serveur).
+        quantity:
+          type: number
+          format: double
+          minimum: 0
+          description: Quantité mouvementée (doit être ≤ totalQuantity, règle métier côté serveur)
+        weight:
+          type: number
+          format: double
+          minimum: 0
+          description: Poids mouvementé (doit être ≤ totalWeight, règle métier côté serveur)
+        description: { type: string, maxLength: 256 }
+        totalQuantity:
+          type: number
+          format: double
+          minimum: 0
+          description: Quantité totale contractuelle/attendue (plafond)
+        totalWeight:
+          type: number
+          format: double
+          minimum: 0
+          description: Poids total contractuel/attendu (plafond)
+
+    CustomsDocument:
+      type: object
+      required: [type, ref]
+      properties:
+        type: { type: string, maxLength: 16 }
+        ref: { type: string, maxLength: 64 }
+
+    ReferenceAvailabilityResponse:
+      type: object
+      required:
+        - refType
+        - refCode
+        - totalQuantity
+        - totalWeight
+        - sumInQuantity
+        - sumOutQuantity
+        - availableQuantity
+        - availableWeight
+      properties:
+        refType: { $ref: '#/components/schemas/RefType' }
+        refCode: { type: string }
+        totalQuantity: { type: number, format: double }
+        totalWeight: { type: number, format: double }
+        sumInQuantity: { type: number, format: double }
+        sumOutQuantity: { type: number, format: double }
+        availableQuantity: { type: number, format: double }
+        availableWeight: { type: number, format: double }
+
+    # --- RFC 7807 Problem Details ---
+    Problem:
+      type: object
+      description: RFC 7807 Problem Details
+      required: [type, title, status]
+      properties:
+        type:
+          type: string
+          format: uri
+          example: https://example.com/problems/ref_total_exceeded
+        title:
+          type: string
+          example: Business rule violated
+        status:
+          type: integer
+          format: int32
+          example: 422
+        detail:
+          type: string
+          example: "La quantité demandée (80) dépasse le total restant (60)."
+        instance:
+          type: string
+          format: uri
+          example: /movements/123
+      additionalProperties: true  # extensions: "code", "violations", etc.

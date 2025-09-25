@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="202509250901_jbilong_create_table_goods" author="jbilong">
+        <createTable tableName="goods" schemaName="tms">
+            <column name="id" type="BIGINT" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ref_type" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ref_code" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="NUMERIC(15,2)"/>
+            <column name="weight" type="NUMERIC(15,2)"/>
+            <column name="total_quantity" type="NUMERIC(15,2)"/>
+            <column name="total_weight" type="NUMERIC(15,2)"/>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+
+        <!-- Index composite -->
+        <createIndex indexName="ix_goods_ref"
+                     schemaName="tms"
+                     tableName="goods">
+            <column name="ref_type"/>
+            <column name="ref_code"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Enum CHECK constraint -->
+    <changeSet id="202509250902_jbilong_ck_goods_ref_type" author="jbilong">
+        <sql>alter table tms.goods add constraint ck_goods_ref_type check (ref_type in ('AWB','OTHER'));</sql>
+    </changeSet>
+
+</databaseChangeLog>

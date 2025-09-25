@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      author: jbilong
+      file: db/changelog/release_1.0.0/release-schema.xml
