@@ -18,9 +18,9 @@ cd ..
 
 echo 🖥️ Building frontend...
 cd frontend
-call npm install
-call npm run codegen
-call npm run build
+call pnpm install
+call pnpm run codegen
+call pnpm run build
 cd ..
 
 echo ✅ All projects built successfully!

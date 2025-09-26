@@ -7,12 +7,14 @@ import fr.cargo.tms.contracts.model.MovementResponseDto;
 import fr.cargo.tms.service.MovementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(value = "api/")
 public class MovementController implements MovementsApi {
 
     private final MovementService movementService;

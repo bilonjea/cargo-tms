@@ -48,6 +48,8 @@ public class FixtureServiceImpl implements FixtureService {
             boolean out = faker.bool().bool();
             Warehouse declared = allWh.get(rnd.nextInt(allWh.size()));
 
+            RefType type = faker.options().option(RefType.class);
+
             Movement.MovementBuilder<?,?> mb = Movement.builder()
                     .movementType(out ? MovementType.OUT : MovementType.IN)
                     .movementTime(
@@ -60,8 +62,8 @@ public class FixtureServiceImpl implements FixtureService {
                     .customsStatus(out ? "A" : "D")
                     .declaredIn(declared)
                     .goods(Goods.builder()
-                            .refType(faker.options().option(RefType.class))
-                            .refCode(generateRefCode())
+                            .refType(type)
+                            .refCode(generateRefCode(type))
                             .quantity((double) faker.number().numberBetween(1, 20))
                             .weight((double) faker.number().numberBetween(5, 200))
                             .totalQuantity((double) faker.number().numberBetween(1, 20))
@@ -107,8 +109,8 @@ public class FixtureServiceImpl implements FixtureService {
     }
 
 
-    private String generateRefCode() {
-        if (faker.bool().bool()) {
+    private String generateRefCode(RefType type) {
+        if (type == RefType.AWB) {
             return faker.number().digits(11); // AWB
         }
         return "REF-" + faker.number().digits(6);
@@ -124,5 +126,7 @@ public class FixtureServiceImpl implements FixtureService {
                 .code("LHR").label("London Heathrow").build());
         warehouseRepository.save(Warehouse.builder()
                 .code("FRA").label("Frankfurt Main").build());
+         warehouseRepository.save(Warehouse.builder()
+                .code("RAPIDCARGO").label("RapidCargo CDG").build());
     }
 }

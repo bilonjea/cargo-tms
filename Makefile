@@ -14,15 +14,15 @@ admin:
 	cd tms-sb-admin && mvn clean install -DskipTests || echo "⚠️ tms-sb-admin skipped"
 
 frontend:
-	cd frontend && npm install && npm run codegen && npm run build
+	cd frontend && pnpm install && pnpm run build
 
 # ===== Run =====
 
 run-backend:
-	cd tms/tms-service && ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+	cd tms/tms-service && mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 run-frontend:
-	cd frontend && npm start
+	cd frontend && pnpm start
 
 # ===== Infra =====
 

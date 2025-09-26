@@ -17,17 +17,21 @@ Cas d’usage simulé : *RapidCargo CDG* →
 cargo-tms/
 │
 ├─ contracts-api/                     
-│   └─ src/main/resources/openapi.yaml   # Spécification OpenAPI (Swagger), génération DTO
+│   └─ src/main/resources/openapi.yaml       # Spécification OpenAPI (Swagger), génération DTO
 │
-├─ tms
-│   ├─ tms-service/               # Backend Spring Boot (REST API, JPA, Mail, règles métier)
+├─ tms/
+│   ├─ tms-service/                          # Backend Spring Boot (REST API, JPA, Mail, règles métier)
 │   └─ tms-db/                               # Migrations Liquibase (module séparé ou inclus)
 │
-├─ tms-sb-admin/                  # Serveur Spring Boot Admin (monitoring)
+├─ tms-sb-admin/                             # Serveur Spring Boot Admin (monitoring)
 │
-├─ frontend/                             # Application Angular 20 (UI : liste + formulaire)
+├─ frontend/                                 # Application Angular 20 (UI : liste + formulaire)
 │
-└─ infra/                                # docker-compose (Postgres, Mailhog, SBA, etc.)
+├─ infra/                                    # docker-compose (Postgres, Mailhog, SBA, etc.)
+│
+└─ postman/                                  # Collections Postman pour tester les endpoints
+    └─ cargo.postman_collection.json
+
 ```
 
 ### Détails
@@ -110,13 +114,20 @@ cargo-tms/
 - **Monitoring** via Spring Boot Admin (si déployé)
 
 
-## 📜 API (OpenAPI)
+## 📜 API FIRST (OpenAPI)
 
 - **Contrat** : `contracts-api/src/main/resources/openapi.yaml`
 - **Erreurs** : format **RFC 7807 Problem Details** (`application/problem+json`)
 - **DTO générés automatiquement** :
-  - Java côté backend
+  - Java côté backend dans le projet contracts-api
   - TypeScript côté frontend
+  ```
+  pnpm openapi-generator-cli generate \
+  -i ../contracts-api/src/main/resources/openapi.yaml \
+  -g typescript-angular \
+  -o src/app/api \
+  --additional-properties=ngVersion=20,providedInRoot=true,stringEnums=true,withSeparateModelsAndApi=true,modelSuffix=Dto,serviceSuffix=Api
+  ```
 
 ## 🚀 Lancer le projet
 
@@ -124,7 +135,10 @@ cargo-tms/
 - Java **21**
 - Maven **3.9+**
 - Node **20+** (Angular 20)
-- Docker & Docker Compose
+- pnpm (gestionnaire de dépendances recommandé)
+- Angular CLI installé pour générer des composants  
+  Exemple : `pnpm ng generate component monComponent`
+- Docker & Docker Compose (via WSL Ubuntu)
 
 ###  🛠️ Builds
 
@@ -136,6 +150,8 @@ chmod +x build-all.sh
 ./build-all.sh
  ```
 - **Makefile** : `make` (ou `make <cible>` pour un build ciblé)
+ Exemple : make run-backend
+ Exemple : make run-frontend
 
 
 ### Étapes
@@ -162,7 +178,8 @@ docker compose -f infra/docker-compose.yml down -v && docker compose -f infra/do
 
 ### 🔗 URLs
 
-- **API** : [http://localhost:8080/tms-service_v1](http://localhost:8080/tms-service_v1)  
+- **Backend Service** : [http://localhost:8080/tms-service_v1](http://localhost:8080/tms-service_v1)  
+- **API** : [http://localhost:8080/tms-service_v1/swagger-ui/index.html](http://localhost:8080/tms-service_v1/swagger-ui/index.html)
 - **UI** : [http://localhost:4200](http://localhost:4200) 
 - **Postgres** : [http://localhost:5432)](http://localhost:5432))
 - **Mailhog UI** : [http://localhost:8025](http://localhost:8025)  

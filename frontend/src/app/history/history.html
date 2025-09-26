@@ -1,0 +1,30 @@
+<h2>Historique des mouvements</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Horodatage</th>
+      <th>Type</th>
+      <th>De</th>
+      <th>Vers</th>
+      <th>Référence</th>
+      <th>Quantité</th>
+      <th>Poids</th>
+      <th>Statut douanier</th>
+    </tr>
+  </thead>
+  <tbody>
+  @for (movement of movements; track movement) {
+    <tr>
+      <td>{{ movement.timestamp }}</td>
+      <td>{{ movement.type }}</td>
+      <td>{{ movement.from }}</td>
+      <td>{{ movement.to }}</td>
+      <td>{{ movement.reference }}</td>
+      <td>{{ movement.quantity }}</td>
+      <td>{{ movement.weight }}</td>
+      <td>{{ movement.customStatus }}</td>
+    </tr>
+  }
+</tbody>
+</table>
+

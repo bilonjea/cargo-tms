@@ -11,6 +11,8 @@
 
     <properties>
         <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <openapi.generator.version>7.15.0</openapi.generator.version>
         <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
         <javaApiPackage>fr.cargo.tms.contracts.api</javaApiPackage>
@@ -138,12 +140,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
-
 </project>

@@ -28,26 +28,26 @@ public class Goods {
 
     @NotNull
     @PositiveOrZero
-    @Column(name = "goods_quantity", nullable = false)
+    @Column(name = "quantity", nullable = false)
     private Double quantity;
 
     @NotNull
     @PositiveOrZero
-    @Column(name = "goods_weight", nullable = false)
+    @Column(name = "weight", nullable = false)
     private Double weight;
 
     @NotNull
     @PositiveOrZero
-    @Column(name = "goods_total_quantity", nullable = false)
+    @Column(name = "total_quantity", nullable = false)
     private Double totalQuantity;
 
     @NotNull
     @PositiveOrZero
-    @Column(name = "goods_total_weight", nullable = false)
+    @Column(name = "total_weight", nullable = false)
     private Double totalWeight;
 
     @Size(max = 256)
-    @Column(name = "goods_description", length = 256)
+    @Column(name = "description", length = 256)
     private String description;
 }
 

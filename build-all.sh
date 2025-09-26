@@ -18,9 +18,9 @@ cd ..
 
 echo "🖥️ Building frontend..."
 cd frontend
-npm install
-npm run codegen
-npm run build
+pnpm install
+#pnpm run codegen
+pnpm run build
 cd ..
 
 echo "✅ All projects built successfully!"

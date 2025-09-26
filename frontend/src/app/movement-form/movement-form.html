@@ -1,0 +1,71 @@
+<form [formGroup]="movementForm" (ngSubmit)="onSubmit()">
+  <h2>{{ isEntry ? 'Saisie d\'une entrée' : 'Saisie d\'une sortie' }}</h2>
+
+  <div class="form-row">
+    <label>Magasin {{ isEntry ? 'd\'origine' : 'de destination' }}</label>
+    <select formControlName="warehouse">
+      <option value="">Sélectionnez un magasin</option>
+      <option value="ComboBox">ComboBox</option>
+    </select>
+    <label>Statut Douanier</label>
+    <select formControlName="customStatus">
+      <option value="">Sélectionnez un statut</option>
+      <option value="T1">T1</option>
+    </select>
+  </div>
+
+  <div class="form-row">
+    <label>Référence</label>
+    <select formControlName="referenceType" style="width: 100px; margin-right: 10px;">
+      <option value="">Type</option>
+      <option value="AWB">AWB</option>
+    </select>
+    <input type="text" formControlName="reference">
+    @if (movementForm.get('reference')?.errors?.['invalidAWB'] && movementForm.get('reference')?.touched) {
+      <div class="error-message">
+        La référence AWB doit comporter exactement 11 chiffres.
+      </div>
+    }
+  </div>
+
+  <div class="form-row">
+    <label>Nature de la marchandise</label>
+    <input type="text" formControlName="description">
+  </div>
+
+  <div class="form-row">
+    <label>Quantité</label>
+    <input type="number" formControlName="quantity">
+    <label>Poids</label>
+    <input type="number" formControlName="weight">
+  </div>
+
+  <div class="form-row">
+    <label>Quantité totale</label>
+    <input type="number" formControlName="totalQuantity">
+    <label>Poids total</label>
+    <input type="number" formControlName="totalWeight">
+  </div>
+
+  @if (!isEntry) {
+    <div class="exit-specific">
+      <div class="form-row">
+        <label>Type de document</label>
+        <select formControlName="documentType">
+          <option value="">Sélectionnez un type</option>
+          <option value="T1">T1</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Référence du document</label>
+        <input type="text" formControlName="documentReference">
+      </div>
+    </div>
+  }
+
+  <div class="button-row">
+    <button type="button" (click)="onCancel()">Annuler</button>
+    <button type="submit">Envoyer</button>
+  </div>
+</form>

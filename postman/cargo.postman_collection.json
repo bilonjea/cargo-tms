@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "9da1d973-ffbf-4750-aec3-89e744a0a342",
+		"name": "cargo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7966320"
+	},
+	"item": [
+		{
+			"name": "getLast50Movements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tms-service_v1/api/movements?limit=50",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tms-service_v1",
+						"api",
+						"movements"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "50"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getReferenceAvailabilityOut",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tms-service_v1/api/references/OTHER/48815692504/availability",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tms-service_v1",
+						"api",
+						"references",
+						"OTHER",
+						"48815692504",
+						"availability"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getReferenceAvailabilityIn",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tms-service_v1/api/references/OTHER/REF-922146/availability",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tms-service_v1",
+						"api",
+						"references",
+						"OTHER",
+						"REF-922146",
+						"availability"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loadFixtures",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tms-service_v1/api/dev/fixtures/load?count=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tms-service_v1",
+						"api",
+						"dev",
+						"fixtures",
+						"load"
+					],
+					"query": [
+						{
+							"key": "count",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createMovementIn",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"movementType\": \"IN\",\r\n  \"movementTime\": \"2025-09-24T10:03:00Z\",\r\n  \"createdBy\": \"jbilong\",\r\n  \"declaredIn\": {\r\n    \"code\": \"RAPIDCARGO\",\r\n    \"label\": \"RapidCargo CDG\"\r\n  },\r\n  \"fromWarehouse\": {\r\n    \"code\": \"LHR\",\r\n    \"label\": \"London Heathrow\"\r\n  },\r\n  \"goods\": {\r\n    \"refType\": \"AWB\",\r\n    \"refCode\": \"07712345678\",\r\n    \"quantity\": 12,\r\n    \"weight\": 345,\r\n    \"description\": \"ELECTRONICS\",\r\n    \"totalQuantity\": 12,\r\n    \"totalWeight\": 345\r\n  },\r\n  \"customsStatus\": \"X\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/tms-service_v1/api/movements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tms-service_v1",
+						"api",
+						"movements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createMovementOut",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"movementType\": \"OUT\",\r\n  \"movementTime\": \"2025-09-24T10:03:00Z\",\r\n  \"createdBy\": \"jbilong\",\r\n  \"declaredIn\": {\r\n    \"code\": \"RAPIDCARGO\",\r\n    \"label\": \"RapidCargo CDG\"\r\n  },\r\n  \"fromWarehouse\": {\r\n    \"code\": \"LHR\",\r\n    \"label\": \"London Heathrow\"\r\n  },\r\n  \"goods\": {\r\n    \"refType\": \"AWB\",\r\n    \"refCode\": \"07712345678\",\r\n    \"quantity\": 12,\r\n    \"weight\": 345,\r\n    \"description\": \"ELECTRONICS\",\r\n    \"totalQuantity\": 12,\r\n    \"totalWeight\": 345\r\n  },\r\n  \"customsStatus\": \"X\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/tms-service_v1/api/movements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tms-service_v1",
+						"api",
+						"movements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createMovementUnknownWarehouse",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"movementType\": \"IN\",\r\n  \"movementTime\": \"2025-09-24T10:03:00Z\",\r\n  \"createdBy\": \"jbilong\",\r\n  \"declaredIn\": {\r\n    \"code\": \"RAPIDCARGO\",\r\n    \"label\": \"RapidCargo CDG\"\r\n  },\r\n  \"fromWarehouse\": {\r\n    \"code\": \"CDGAF1\",\r\n    \"label\": \"Air Cargo CDG 1\"\r\n  },\r\n  \"goods\": {\r\n    \"refType\": \"AWB\",\r\n    \"refCode\": \"07712345678\",\r\n    \"quantity\": 12,\r\n    \"weight\": 345,\r\n    \"description\": \"ELECTRONICS\",\r\n    \"totalQuantity\": 12,\r\n    \"totalWeight\": 345\r\n  },\r\n  \"customsStatus\": \"X\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/tms-service_v1/api/movements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tms-service_v1",
+						"api",
+						"movements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cleanDb",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tms-service_v1/api/dev/fixtures/clean",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tms-service_v1",
+						"api",
+						"dev",
+						"fixtures",
+						"clean"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -30,9 +30,9 @@ spring:
 
   liquibase:
     enabled: true
-    #change-log: classpath:db/changelog/db.changelog-master.yaml
-    #default-schema: tms
-    # contexts: prod            # (optionnel) si tu filtres par contextes
+    default-schema: tms
+    liquibase-schema: public
+    # contexts: prod # à activer si besoin de gérer plusieurs contextes
 
 server:
   port: 8080

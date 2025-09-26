@@ -10,4 +10,4 @@ app:
     enabled: true
     from: no-reply@local.test
     to: ${EMAIL_TO:dev@local.test}
-    subject: "Movement #{id}"
+    subject: "Movement {id}"

@@ -1,18 +1,23 @@
 package fr.cargo.tms.mail;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import fr.cargo.tms.contracts.model.MovementDto;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Component
-@RequiredArgsConstructor
 public class MovementXmlBuilder {
 
-    private final XmlMapper xmlMapper = new XmlMapper();
+    private final XmlMapper xmlMapper;
+
+    public MovementXmlBuilder() {
+        this.xmlMapper = new XmlMapper();
+        this.xmlMapper.registerModule(new JavaTimeModule());
+    }
 
     public byte[] buildXml(MovementDto movement) {
         // En-tête minimal conforme aux exemples du sujet (from/to/date/id)
@@ -39,6 +44,7 @@ public class MovementXmlBuilder {
         public MovementDto getMovement() { return movement; }
         public MovementEnvelope setMovement(MovementDto m) { this.movement = m; return this; }
     }
+    
     public static class MovementHeader {
         private String from, to, messageTime, messageId;
         public String getFrom() { return from; }

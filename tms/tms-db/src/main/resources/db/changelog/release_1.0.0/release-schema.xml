@@ -10,7 +10,5 @@
     </changeSet>
     <!-- Tables de domaine (ordre: warehouse -> goods -> customs_document -> movement) -->
     <include file="db/changelog/release_1.0.0/202509250900_jbilong_create_table_warehouse.xml" author="jbilong"/>
-    <include file="db/changelog/release_1.0.0/202509250901_jbilong_create_table_goods.xml" author="jbilong" />
-    <include file="db/changelog/release_1.0.0/202509250902_jbilong_create_table_customs_document.xml" author="jbilong"/>
     <include file="db/changelog/release_1.0.0/202509250903_jbilong_create_table_movement.xml" author="jbilong"/>
 </databaseChangeLog>

@@ -22,11 +22,26 @@
             <column name="created_by" type="VARCHAR(255)"/>
             <column name="customs_status" type="VARCHAR(16)"/>
 
+            <!-- embbeded goods fields -->
+            <column name="goods_ref_type" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="goods_ref_code" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="NUMERIC(15,2)"/>
+            <column name="weight" type="NUMERIC(15,2)"/>
+            <column name="total_quantity" type="NUMERIC(15,2)"/>
+            <column name="total_weight" type="NUMERIC(15,2)"/>
+            <column name="description" type="VARCHAR(255)"/>
+
+            <!-- embbeded customs_documentds fields -->
+            <column name="customs_doc_type" type="VARCHAR(32)"/>
+            <column name="customs_doc_ref" type="VARCHAR(128)"/>
+
             <column name="declared_in_id" type="BIGINT"/>
             <column name="from_warehouse_id" type="BIGINT"/>
             <column name="to_warehouse_id" type="BIGINT"/>
-            <column name="goods_id" type="BIGINT"/>
-            <column name="customs_document_id" type="BIGINT"/>
         </createTable>
 
         <!-- Indexes -->
@@ -36,6 +51,14 @@
             <column name="movement_time"/>
         </createIndex>
 
+         <!-- Index composite -->
+        <createIndex indexName="ix_goods_ref"
+                     schemaName="tms"
+                     tableName="movement">
+            <column name="goods_ref_type"/>
+            <column name="goods_ref_code"/>
+        </createIndex>
+
         <!-- FK vers warehouse -->
         <addForeignKeyConstraint constraintName="fk_movement_declared_in"
                                  baseTableSchemaName="tms"
@@ -43,8 +66,7 @@
                                  baseColumnNames="declared_in_id"
                                  referencedTableName="warehouse"
                                  referencedColumnNames="id"
-                                 onDelete="RESTRICT"
-                                 />
+                                 onDelete="RESTRICT"/>
         <addForeignKeyConstraint constraintName="fk_movement_from_wh"
                                  baseTableSchemaName="tms"
                                  baseTableName="movement"
@@ -60,26 +82,13 @@
                                  referencedColumnNames="id"
                                  onDelete="RESTRICT"/>
 
-        <!-- FK vers goods -->
-        <addForeignKeyConstraint constraintName="fk_movement_goods"
-                                 baseTableSchemaName="tms"
-                                 baseTableName="movement"
-                                 baseColumnNames="goods_id"
-                                 referencedTableName="goods"
-                                 referencedColumnNames="id"
-                                 onDelete="CASCADE"/>
-
-        <!-- FK vers customs_document -->
-        <addForeignKeyConstraint constraintName="fk_movement_customs_doc"
-                                 baseTableSchemaName="tms"
-                                 baseTableName="movement"
-                                 baseColumnNames="customs_document_id"
-                                 referencedTableName="customs_document"
-                                 referencedColumnNames="id"
-                                 onDelete="CASCADE"/>
     </changeSet>
     <!-- Enum CHECK constraint -->
     <changeSet id="202509250903_jbilong_ck_movement_type" author="jbilong">
         <sql>alter table tms.movement add constraint ck_movement_type check (movement_type in ('IN','OUT'));</sql>
+    </changeSet>
+     <!-- Enum CHECK constraint -->
+    <changeSet id="202509250903_jbilong_ck_goods_ref_type" author="jbilong">
+        <sql>alter table tms.movement add constraint ck_goods_ref_type check (goods_ref_type in ('AWB','OTHER'));</sql>
     </changeSet>
 </databaseChangeLog>

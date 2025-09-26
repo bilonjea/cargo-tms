@@ -1,0 +1,78 @@
+/* Style général pour le formulaire */
+form {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 25px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  border: 1px solid #ccc;
+}
+
+/* Style pour le titre du formulaire */
+form h2 {
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+/* Style pour les lignes du formulaire */
+.form-row {
+  display: flex;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.form-row label {
+  width: 200px;
+  padding-right: 10px;
+  text-align: right;
+}
+
+/* Style pour les inputs et selects */
+input[type="text"],
+input[type="number"],
+select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+}
+
+/* Style pour les boutons */
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+  gap: 15px;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button[type="button"] {
+  background-color: #f0f0f0;
+  color: #000;
+  padding: 12px 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+button[type="button"]:hover {
+  background-color: #e0e0e0;
+}
