@@ -1,49 +1,21 @@
-/* Style général pour le tableau */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 18px;
-  text-align: left;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  border-radius: 5px;
+/* Conteneur principal pour centrer le tableau */
+.history-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-  /* Style pour l'en-tête du tableau */
-  thead tr {
-    background-color: #007bff;
-    color: #ffffff;
-  }
-
-  /* Style pour les cellules de l'en-tête */
-  th {
-    padding: 12px 15px;
-  }
-
-  /* Style pour les lignes du corps du tableau */
-  tbody tr {
-    border-bottom: 1px
-    solid #dddddd;
-  }
-
-  /* Survol des lignes */
-  tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-  }
-
-  /* Dernière ligne sans bordure */
-  tbody tr:last-of-type {
-    border-bottom: 2px solid #007bff;
-  }
-
-  /* Style pour les cellules du corps du tableau */
-  td {
-    padding: 12px 15px;
-  }
+/* Style pour le titre */
+h2 {
+  color: #333333;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 /* Style pour les liens de navigation */
 nav {
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
 
   a {
@@ -63,8 +35,49 @@ nav {
   }
 }
 
-/* Style pour le titre */
-h2 {
-  color: #333333;
-  margin-bottom: 20px;
+/* Style général pour le tableau */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px auto;
+  font-size: 16px;
+  text-align: left;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+/* Style pour l'en-tête du tableau */
+thead {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+thead tr {
+  height: 50px;
+}
+
+th {
+  padding: 12px 15px;
+}
+
+/* Style pour les lignes du corps du tableau */
+tbody tr {
+  border-bottom: 1px solid #dddddd;
+  height: 40px;
+}
+
+/* Survol des lignes */
+tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+/* Dernière ligne sans bordure */
+tbody tr:last-of-type {
+  border-bottom: 2px solid #007bff;
+}
+
+/* Style pour les cellules du corps du tableau */
+td {
+  padding: 12px 15px;
 }

@@ -1,0 +1,25 @@
+/* src/app/app.component.scss */
+nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+
+  a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    font-size: 18px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &.active {
+      color: #dc3545;
+    }
+  }
+}

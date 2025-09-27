@@ -45,6 +45,21 @@ public class GlobalExceptionHandler {
         return buildProblem(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", "Unexpected error occurred");
     }
 
+     @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<ProblemDto> handleBusiness(BusinessRuleException ex) {
+        return buildProblem(HttpStatus.UNPROCESSABLE_ENTITY, "Business Rule Violation", ex.getMessage());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ProblemDto> handleValidation(ValidationException ex) {
+        if (ex.getProblem() != null) {
+            return ResponseEntity
+                    .status(ex.getProblem().getStatus())
+                    .body(ex.getProblem());
+        }
+        return buildProblem(HttpStatus.BAD_REQUEST, "Validation Error", ex.getMessage());
+    }
+
     // ---- utilitaire commun ----
     private ResponseEntity<ProblemDto> buildProblem(HttpStatus status, String title, String detail) {
         ProblemDto problem = new ProblemDto()
@@ -56,8 +71,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(problem);
     }
 
-    @ExceptionHandler(BusinessRuleException.class)
-    public ResponseEntity<ProblemDto> handleBusiness(BusinessRuleException ex) {
-        return buildProblem(HttpStatus.UNPROCESSABLE_ENTITY, "Business Rule Violation", ex.getMessage());
-    }
+   
+
 }

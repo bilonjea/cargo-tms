@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "http://localhost:8080/tms-service_v1",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

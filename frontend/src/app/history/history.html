@@ -1,30 +1,47 @@
+<div class="history-container">
 <h2>Historique des mouvements</h2>
-<table>
+<p *ngIf="loading()">Chargement…</p>
+<p *ngIf="error()">{{ error() }}</p>
+
+<table *ngIf="!loading() && !error()">
   <thead>
     <tr>
-      <th>Horodatage</th>
+      <th>Date/heure</th>
       <th>Type</th>
       <th>De</th>
       <th>Vers</th>
-      <th>Référence</th>
-      <th>Quantité</th>
+      <th>Réf (type/code)</th>
+      <th>Qté</th>
       <th>Poids</th>
       <th>Statut douanier</th>
+      <th>Doc douane</th>
     </tr>
   </thead>
   <tbody>
-  @for (movement of movements; track movement) {
-    <tr>
-      <td>{{ movement.timestamp }}</td>
-      <td>{{ movement.type }}</td>
-      <td>{{ movement.from }}</td>
-      <td>{{ movement.to }}</td>
-      <td>{{ movement.reference }}</td>
-      <td>{{ movement.quantity }}</td>
-      <td>{{ movement.weight }}</td>
-      <td>{{ movement.customStatus }}</td>
-    </tr>
-  }
-</tbody>
-</table>
+    @for (m of movements(); track m.id) {
+      <tr>
+        <td>{{ m.movementTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+        <td>{{ m.movementType }}</td>
 
+       <td>{{ fromOf(m) }}</td>
+       <td>{{ toOf(m) }}</td>
+
+        <!-- goods -->
+        <td>{{ m.goods.refType }} / {{ m.goods.refCode }}</td>
+        <td>{{ m.goods.quantity }} / {{ m.goods.totalQuantity }}</td>
+        <td>{{ m.goods.weight }} / {{ m.goods.totalWeight }}</td>
+
+        <td>{{ m.customsStatus }}</td>
+
+        <!-- customs document (only for OUT en général) -->
+        <td>
+          {{ m.customsDocument?.type || '—' }}
+          <ng-container *ngIf="m.customsDocument?.ref">
+            — {{ m.customsDocument?.ref }}
+          </ng-container>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+</div>
