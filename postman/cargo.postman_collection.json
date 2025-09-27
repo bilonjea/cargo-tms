@@ -147,7 +147,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"movementType\": \"OUT\",\r\n  \"movementTime\": \"2025-09-24T10:03:00Z\",\r\n  \"createdBy\": \"jbilong\",\r\n  \"declaredIn\": {\r\n    \"code\": \"RAPIDCARGO\",\r\n    \"label\": \"RapidCargo CDG\"\r\n  },\r\n  \"fromWarehouse\": {\r\n    \"code\": \"LHR\",\r\n    \"label\": \"London Heathrow\"\r\n  },\r\n  \"goods\": {\r\n    \"refType\": \"AWB\",\r\n    \"refCode\": \"07712345678\",\r\n    \"quantity\": 12,\r\n    \"weight\": 345,\r\n    \"description\": \"ELECTRONICS\",\r\n    \"totalQuantity\": 12,\r\n    \"totalWeight\": 345\r\n  },\r\n  \"customsStatus\": \"X\"\r\n}",
+					"raw": "{\r\n  \"movementType\": \"OUT\",\r\n  \"movementTime\": \"2025-09-24T10:03:00Z\",\r\n  \"createdBy\": \"jbilong\",\r\n  \"declaredIn\": { \"code\": \"RAPIDCARGO\", \"label\": \"RapidCargo CDG\" },\r\n  \"toWarehouse\": { \"code\": \"LHR\", \"label\": \"London Heathrow\" },\r\n  \"goods\": {\r\n    \"refType\": \"AWB\",\r\n    \"refCode\": \"07712345678\",\r\n    \"quantity\": 12,\r\n    \"weight\": 345,\r\n    \"description\": \"ELECTRONICS\",\r\n    \"totalQuantity\": 12,\r\n    \"totalWeight\": 345\r\n  },\r\n  \"customsStatus\": \"A\",\r\n  \"customsDocument\": { \"type\": \"EX\", \"ref\": \"DOC-123456\" }\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
