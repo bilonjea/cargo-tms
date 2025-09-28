@@ -1,3 +1,8 @@
+@if (errorMessage()) {
+  <div class="error-message">
+    {{ errorMessage() }}
+  </div>
+}
 <form [formGroup]="movementForm" (ngSubmit)="onSubmit()">
   <h2>{{ isEntry ? 'Saisie d\'une entrée' : 'Saisie d\'une sortie' }}</h2>
 
@@ -5,27 +10,50 @@
     <label>Magasin {{ isEntry ? 'd\'origine' : 'de destination' }}</label>
     <select formControlName="warehouse">
       <option value="">Sélectionnez un magasin</option>
-      <option value="ComboBox">ComboBox</option>
+      <option *ngFor="let wh of knownWarehouses" [value]="wh.code">
+        {{ wh.label }}
+      </option>
     </select>
     <label>Statut Douanier</label>
     <select formControlName="customStatus">
       <option value="">Sélectionnez un statut</option>
-      <option value="T1">T1</option>
+      <option *ngFor="let opt of customStatusOptions" [value]="opt.value">
+        {{ opt.label }}
+      </option>
     </select>
   </div>
 
+  <!---  TODO: Reintegrate custom time picker component
   <div class="form-row">
-    <label>Référence</label>
-    <select formControlName="referenceType" style="width: 100px; margin-right: 10px;">
-      <option value="">Type</option>
-      <option value="AWB">AWB</option>
-    </select>
-    <input type="text" formControlName="reference">
-    @if (movementForm.get('reference')?.errors?.['invalidAWB'] && movementForm.get('reference')?.touched) {
-      <div class="error-message">
-        La référence AWB doit comporter exactement 11 chiffres.
-      </div>
-    }
+    <label>Date/Heure du mouvement</label>
+    <app-movement-time-picker formControlName="movementTime" [required]="true">
+    </app-movement-time-picker>
+  </div>
+  -->
+  <div class="form-row">
+    <label>Date/Heure du mouvement</label>
+    <input type="datetime-local" formControlName="movementTime">
+  </div>
+
+  <div class="form-row">
+  <label>Référence</label>
+  <select formControlName="referenceType" style="width: 100px; margin-right: 10px;">
+    <option value="">Type</option>
+    <option *ngFor="let option of refTypeOptions" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+  <input type="text" formControlName="reference" [pattern]="movementForm.get('referenceType')?.value === 'AWB' ? '\\d{11}' : ''" />
+  @if (movementForm.get('reference')?.errors?.['required'] && movementForm.get('reference')?.touched) {
+    <div class="error-message">
+      La référence est requise.
+    </div>
+  }
+  @if (movementForm.get('referenceType')?.value === 'AWB' && movementForm.get('reference')?.errors?.['invalidAWB'] && movementForm.get('reference')?.touched) {
+    <div class="error-message">
+      La référence AWB doit comporter exactement 11 chiffres.
+    </div>
+  }
   </div>
 
   <div class="form-row">
@@ -53,7 +81,9 @@
         <label>Type de document</label>
         <select formControlName="documentType">
           <option value="">Sélectionnez un type</option>
-          <option value="T1">T1</option>
+          <option *ngFor="let option of customDocTypeOptions" [value]="option.value">
+            {{ option.label }}
+          </option>
         </select>
       </div>
 
@@ -65,7 +95,7 @@
   }
 
   <div class="button-row">
-    <button type="button" (click)="onCancel()">Annuler</button>
-    <button type="submit">Envoyer</button>
+    <button type="button" (click)="resetWithDefaults()">Annuler</button>
+    <button type="submit" [disabled]="movementForm.invalid">Envoyer</button>
   </div>
 </form>

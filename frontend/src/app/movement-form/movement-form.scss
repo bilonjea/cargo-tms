@@ -31,9 +31,10 @@ form h2 {
   text-align: right;
 }
 
-/* Style pour les inputs et selects */
+/* Style pour les inputs, selects et datetime-local */
 input[type="text"],
 input[type="number"],
+input[type="datetime-local"],
 select {
   padding: 8px;
   border: 1px solid #ccc;
