@@ -13,7 +13,7 @@ export class History implements OnInit {
   loading = signal(false);
   error = signal<string | null>(null);
 
-  constructor(private movementsApi: MovementsApi) {}
+  constructor(private movementService: MovementsApi) {}
 
   ngOnInit(): void {
     this.fetchMovements();
@@ -23,7 +23,7 @@ export class History implements OnInit {
     this.loading.set(true);
     this.error.set(null);
 
-    this.movementsApi
+    this.movementService
       .listMovements(50 /* limit */)
       .subscribe({
         next: (data) => {

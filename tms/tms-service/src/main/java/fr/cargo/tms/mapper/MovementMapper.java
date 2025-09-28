@@ -30,13 +30,13 @@ public interface MovementMapper {
                                    @MappingTarget Movement target,
                                    @Context WarehouseResolver resolver) {
         if (dto.getDeclaredIn() != null && dto.getDeclaredIn().getCode() != null) {
-            target.setDeclaredIn(resolver.find(dto.getDeclaredIn().getCode()));
+            target.setDeclaredIn(resolver.find(dto.getDeclaredIn()));
         }
         if (dto.getFromWarehouse() != null && dto.getFromWarehouse().getCode() != null) {
-            target.setFromWarehouse(resolver.find(dto.getFromWarehouse().getCode()));
+            target.setFromWarehouse(resolver.find(dto.getFromWarehouse()));
         }
         if (dto.getToWarehouse() != null && dto.getToWarehouse().getCode() != null) {
-            target.setToWarehouse(resolver.find(dto.getToWarehouse().getCode()));
+            target.setToWarehouse(resolver.find(dto.getToWarehouse()));
         }
     }
 

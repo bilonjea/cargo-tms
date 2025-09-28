@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject,ViewChild } from '@angular/core';
 import { MovementForm } from '../movement-form/movement-form';
+import { MovementCreateRequestDto} from '../api';
+import { MovementFacade } from '@services/movement-facade';
 
 @Component({
   selector: 'app-exit',
@@ -9,8 +11,19 @@ import { MovementForm } from '../movement-form/movement-form';
   styleUrl: './exit.scss'
 })
 export class Exit {
-  onSubmitMovement(data: any) {
-    console.log('Sortie soumise:', data);
-    // Ajoutez ici la logique pour envoyer les données au serveur
-  }
+  facade = inject(MovementFacade);
+  @ViewChild(MovementForm) form!: MovementForm;
+
+  onSubmitMovement = (payload: MovementCreateRequestDto) => {
+    //this.facade.createMovement(payload).subscribe();
+    this.facade.createMovement(payload).subscribe(res => {
+      if (res) {
+        this.form.resetWithDefaults();
+        //this.facade.lastResponse.set(null);
+        setTimeout(() => this.facade.lastResponse.set(null), 3000);
+        
+      }
+    });
+  };
+
 }

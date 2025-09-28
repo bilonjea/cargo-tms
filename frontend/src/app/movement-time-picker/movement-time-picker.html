@@ -1,0 +1,9 @@
+<input
+  type="datetime-local"
+  [required]="required"
+  [min]="min"
+  [max]="max"
+  [value]="localValue ?? ''"
+  (input)="onInputChange($any($event.target).value)"
+  (blur)="markTouched()"
+/>

@@ -1,2 +1,22 @@
-<app-movement-form [isEntry]="false" (submitMovement)="onSubmitMovement($event)"></app-movement-form>
+<app-movement-form 
+[isEntry]="false" 
+(submitMovement)="onSubmitMovement($event)">
+</app-movement-form>
+
+@if (facade.apiErrorMessage()) {
+  <div class="error-message">
+    {{ facade.apiErrorMessage() }}
+  </div>
+}
+@if (facade.isLoading()) {
+  <div>Chargement...</div>
+}
+
+<!-- Optionnel : feedback succès -->
+@if (facade.lastResponse(); as r) {
+  <div class="success-message">
+    Mouvement créé — id: {{ r.id || '—' }}
+  </div>
+}
+  
 

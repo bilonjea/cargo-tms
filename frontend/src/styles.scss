@@ -8,3 +8,13 @@ a.active {
   font-weight: bold;
   color: #d6336c;
 }
+
+/* styles.scss (global) */
+.error-message { 
+  color: #c62828; 
+  white-space: pre-line; 
+}
+
+.success-message { 
+  color: #2e7d32; 
+}
