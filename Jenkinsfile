@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'docker-2' }
+    agent { label 'docker-3' }
     
     stages {
         stage('Ping'){ 
