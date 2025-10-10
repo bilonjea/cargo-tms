@@ -1,16 +1,19 @@
 pipeline {
-    agent { label 'docker-3' }
+    agent { label 'docker' }
     
     stages {
         stage('Ping'){ 
             steps { 
-                sh 'hostname && whoami' 
+                sh 'ls -la' 
             } 
         }
         stage('Build') {
             steps {
-                echo 'Building cargo-tms...'
-            }
+        sh '''
+          cd contracts-api
+          mvn install || true
+        '''
+      }
         }
         stage('Test') {
             steps {
