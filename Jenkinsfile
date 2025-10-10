@@ -8,16 +8,12 @@ pipeline {
     JAVA_HOME            = tool(name: 'jdk-21', type: 'jdk')
     PATH                 = "${JAVA_HOME}/bin:${PATH}"
 
-    # Maven
     MVN_FLAGS            = "-B -Dmaven.repo.local=${WORKSPACE}/.m2"
-    # Images / registry
     REGISTRY             = "ghcr.io"
     IMAGE_NAME           = "ghcr.io/<org_ou_user>/tms"     // ← change-moi
     IMAGE_TAG            = "build-${BUILD_NUMBER}"
-    # JFrog (generic repo ou maven repo)
     JFROG_URL            = "https://<your-artifactory-domain>"  // ← change-moi
     JFROG_REPO           = "libs-release-local"                  // ou libs-snapshot-local
-    # Artefact principal backend
     TMS_JAR              = "tms/target/tms-*.jar"
   }
 
