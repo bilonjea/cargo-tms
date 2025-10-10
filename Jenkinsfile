@@ -13,22 +13,28 @@ pipeline {
           cd contracts-api
           mvn install || true
         '''
-      }
         }
-        stage('Test') {
+    }
+       stage('Builds en parallèle') {
+      parallel {
+        stage('Frontend (React)') {
             steps {
-                echo 'Testing cargo-tms...'
-            }
+        sh '''
+         cd frontend
+         npm install || true
+        '''
         }
-        stage('Dockerized'){
-            agent { 
-                docker { 
-                    image 'alpine:3.19' 
-                }
-            }
-            steps { 
-                sh 'echo hello from container && cat /etc/alpine-release' 
-            }
         }
+        stage('build tms') {
+            steps {
+        sh '''
+          cd tms
+          mvn -U clean verify || true
+        '''
+        }
+        }
+      }
+    }
+        
     }
 }
