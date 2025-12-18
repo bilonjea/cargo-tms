@@ -1,0 +1,8 @@
+Déroulé de la démo est séquencéee par
+
+Démarrage : initialisation des composants applicatifs via docker-compose
+(BDD, MailHog, SB-Admin, backend, frontend).
+
+Backend : démonstration via postman (contrat, endpoints, flux de création).
+
+Frontend : démonstration de l’UI et du parcours “mouvements & stocks”.
