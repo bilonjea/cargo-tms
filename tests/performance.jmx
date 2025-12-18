@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2">
+    <hashTree>
+        <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="TMS API Performance Test">
+            <stringProp name="TestPlan.comments"></stringProp>
+            <boolProp name="TestPlan.functional_mode">false</boolProp>
+            <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+            <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
+                <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+        </TestPlan>
+        <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /api/products">
+                <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                <stringProp name="HTTPSampler.port">8080</stringProp>
+                <stringProp name="HTTPSampler.protocol">http</stringProp>
+                <stringProp name="HTTPSampler.path">/api/products</stringProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+            </HTTPSamplerProxy>
+        </hashTree>
+    </hashTree>
+</jmeterTestPlan>
