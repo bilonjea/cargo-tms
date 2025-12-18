@@ -1,0 +1,16 @@
+total 252
+-rw-r--r-- 1 bilonjea bilonjea    693 Dec 18 03:16 Jenkinsfile
+-rw-r--r-- 1 bilonjea bilonjea    837 Sep 26 13:47 Makefile
+-rw-r--r-- 1 bilonjea bilonjea   6842 Sep 26 13:44 README.md
+-rw-r--r-- 1 bilonjea bilonjea    479 Sep 26 13:17 build-all.bat
+-rwxr-xr-x 1 bilonjea bilonjea    514 Sep 26 13:47 build-all.sh
+drwxr-xr-x 4 bilonjea bilonjea   4096 Dec 18 03:16 contracts-api
+drwxr-xr-x 2 bilonjea bilonjea   4096 Dec 18 03:16 demo
+drwxr-xr-x 8 bilonjea bilonjea   4096 Oct 14 17:52 frontend
+drwxr-xr-x 2 bilonjea bilonjea   4096 Sep 25 23:39 infra
+-rw-r--r-- 1 bilonjea bilonjea 190276 Sep 25 23:16 movements-uml.png
+-rw-r--r-- 1 bilonjea bilonjea  11169 Oct  8 07:36 nohup.out
+drwxr-xr-x 2 bilonjea bilonjea   4096 Oct  8 07:36 postman
+-rw-r--r-- 1 bilonjea bilonjea      0 Dec 18 15:29 test.txt
+drwxr-xr-x 4 bilonjea bilonjea   4096 Sep 28 05:11 tms
+drwxr-xr-x 4 bilonjea bilonjea   4096 Sep 26 13:48 tms-sb-admin
