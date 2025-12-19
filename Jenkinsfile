@@ -43,10 +43,11 @@ pipeline {
 				}
 			}
 		}
+
 	}
 	post {
 		always {
-			archiveArtifacts artifacts: 'contracts-api/target/*.jar', fingerprint: true
+			archiveArtifacts artifacts: 'contracts-api/target/*.jar', fingerprint: true, allowEmptyArchive: true
 			echo "Pipeline terminé pour la branche : ${env.BRANCH_NAME}"
 		}
 	}
