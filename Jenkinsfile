@@ -34,18 +34,18 @@ pipeline {
     }
     stage('Analyse SpotBugs & Warnings') {
       steps {
-            dir('tms') {
-                sh 'mvn spotbugs:spotbugs'
-                recordIssues tool: spotBugs()
-                // TODO add the pluging but it include into spotbugs
-                //Tsh 'mvn compile compiler:compile warnings:warn'
-                //recordIssues tool: mavenConsole()
-              }
-        //dir('contracts-api') {
-        //  sh 'mvn spotbugs:spotbugs'
-        //  recordIssues tool: spotBugs()
-        //}
-
+        dir('contracts-api') {
+          sh 'mvn spotbugs:spotbugs'
+          ///recordIssues tool: spotBugs()
+        }
+        dir('tms') {
+          sh 'mvn spotbugs:spotbugs'
+          //recordIssues tool: spotBugs()
+          // TODO add the pluging but it include into spotbugs
+          //Tsh 'mvn compile compiler:compile warnings:warn'
+          //recordIssues tool: mavenConsole()
+        }
+        recordIssues tool: spotBugs(pattern: '**/spotbugs.xml')
       }
        //post {
          //failure {
