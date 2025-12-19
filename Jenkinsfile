@@ -15,16 +15,9 @@ pipeline {
     MAVEN_OPTS = '-Dmaven.test.failure.ignore=false'
   }
 
-  options {
-    skipDefaultCheckout()
-    buildDiscarder(logRotator(numToKeepStr: '10'))
-    timestamps()
-  }
-
   stages {
     stage('Checkout & Build Maven') {
       steps {
-        git branch: 'main', url: 'git@github.com:bilonjea/cargo-tms.git'
         dir('contracts-api') {
           sh 'mvn clean install'
         }
