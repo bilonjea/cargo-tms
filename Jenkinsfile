@@ -56,7 +56,7 @@ pipeline {
 
 		stage('build contracts-api (feature/*)') {
 			when {
-				expression { env.branch_name.startsWith('feature/*') }
+				expression { env.branch_name.startsWith('feature/') }
 			}
 			steps {
 				echo "build contracts-api pour une branche feature/*"
