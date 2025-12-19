@@ -2,9 +2,9 @@ pipeline {
   agent { label 'docker' }
 
   environment {
-    JFROG_CREDENTIALS = credentials('jfrog-credentials-id')
-    SONAR_TOKEN = credentials('sonar-token-id')
-    NPM_TOKEN = credentials('npm-token-id')
+    JFROG_CREDENTIALS = credentials('jfrog-credentials')
+    SONAR_TOKEN = credentials('sonar-token')
+    NPM_TOKEN = credentials('npm-token')
     VM_USER = 'user'
     VM_HOST = 'vm.example.com'
     VM_BACKEND_PATH = '/opt/cargo-tms/'
