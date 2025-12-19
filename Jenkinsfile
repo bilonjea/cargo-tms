@@ -34,20 +34,6 @@ pipeline {
             }
         }
 
-        stage('build contracts-api (toto)') {
-            when {
-                branch 'toto'
-            }
-            steps {
-                sh 'mvn clean package'
-            }
-        }
-
-        stage('Build Pas de bloc imbriqué') {
-            echo 'Building project...'  // Pas de bloc `steps` explicite
-            sh("make -C $WORKSPACE")
-        }
-
 		stage('build contracts-api (develop)') {
 			when {
 				branch 'develop'
