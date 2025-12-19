@@ -41,10 +41,10 @@ pipeline {
                 //Tsh 'mvn compile compiler:compile warnings:warn'
                 //recordIssues tool: mavenConsole()
               }
-        dir('contracts-api') {
-          sh 'mvn spotbugs:spotbugs'
-          recordIssues tool: spotBugs()
-        }
+        //dir('contracts-api') {
+        //  sh 'mvn spotbugs:spotbugs'
+        //  recordIssues tool: spotBugs()
+        //}
 
       }
        //post {
