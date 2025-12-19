@@ -2,42 +2,70 @@ pipeline {
 	agent any
 
 	stages {
-		stage('Always Run') {
+		stage('always run') {
 			steps {
-				echo "Ce stage s'exécute sur toutes les branches : ${env.BRANCH_NAME}"
+				echo "ce stage s'exécute sur toutes les branches : ${env.branch_name}"
 			}
 		}
 
-		stage('Build contracts-api (main)') {
+		stage('build contracts-api (main)') {
 			when {
 				branch 'main'
 			}
 			steps {
-				echo "Build contracts-api pour la branche main"
+				echo "build contracts-api pour la branche main"
 				dir('contracts-api') {
 					sh 'mvn clean package'
 				}
 			}
 		}
 
-		stage('Build contracts-api (develop)') {
+		stage('build contracts-api (release)') {
+            when {
+                branch 'release'
+            }
+            steps {
+                sh '''
+                    echo "build contracts-api pour la branche release"
+                    cd contracts-api
+                    mvn clean package
+                    ls -l target
+                '''
+            }
+        }
+
+        stage('build contracts-api (toto)') {
+            when {
+                branch 'toto'
+            }
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Build Pas de bloc imbriqué') {
+            echo 'Building project...'  // Pas de bloc `steps` explicite
+            sh("make -C $WORKSPACE")
+        }
+
+		stage('build contracts-api (develop)') {
 			when {
 				branch 'develop'
 			}
 			steps {
-				echo "Build contracts-api pour la branche develop"
+				echo "build contracts-api pour la branche develop"
 				dir('contracts-api') {
 					sh 'mvn clean verify'
 				}
 			}
 		}
 
-		stage('Build contracts-api (feature/*)') {
+		stage('build contracts-api (feature/*)') {
 			when {
-				expression { env.BRANCH_NAME.startsWith('feature/') }
+				expression { env.branch_name.startswith('feature/') }
 			}
 			steps {
-				echo "Build contracts-api pour une branche feature/*"
+				echo "build contracts-api pour une branche feature/*"
 				dir('contracts-api') {
 					sh 'mvn clean install'
 				}
@@ -47,8 +75,8 @@ pipeline {
 	}
 	post {
 		always {
-			archiveArtifacts artifacts: 'contracts-api/target/*.jar', fingerprint: true, allowEmptyArchive: true
-			echo "Pipeline terminé pour la branche : ${env.BRANCH_NAME}"
+			archiveartifacts artifacts: 'contracts-api/target/*.jar', fingerprint: true, allowemptyarchive: true
+			echo "pipeline terminé pour la branche : ${env.branch_name}"
 		}
 	}
 }
