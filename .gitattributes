@@ -1,2 +1,4 @@
 /mvnw text eol=lf
 *.cmd text eol=crlf
+Jenkinsfile eol=lf
+Jenkinsfile eol=crlf
