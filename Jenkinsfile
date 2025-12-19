@@ -22,7 +22,7 @@ pipeline {
           sh 'mvn clean install'
         }
         dir('tms') {
-          sh 'mvn clean package'
+          sh 'mvn clean install'
         }
       }
       post {
