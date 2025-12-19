@@ -10,8 +10,10 @@ pipeline {
 
 
 		stage('Build') {
-            echo 'Building project...'  // Pas de bloc `steps` explicite
-            sh 'ls -l'
+            steps {
+                echo 'Building project...'  // Pas de bloc `steps` explicite
+                sh 'ls -l'
+            }
         }
 
 		stage('build contracts-api (main)') {
