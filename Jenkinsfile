@@ -45,7 +45,7 @@ pipeline {
           //Tsh 'mvn compile compiler:compile warnings:warn'
           //recordIssues tool: mavenConsole()
         }
-        recordIssues tool: spotBugs(pattern: '**/spotbugs.xml')
+        recordIssues tool: spotBugs(pattern: '**/spotbugsXml.xml')
       }
        //post {
          //failure {
