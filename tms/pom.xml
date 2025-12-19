@@ -137,7 +137,7 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.8.3</version>
+                    <version>4.8.5.0</version>
                     <configuration>
                         <effort>Max</effort>
                         <threshold>Low</threshold>
@@ -198,6 +198,47 @@
                     <version>3.2.5</version>
                     <configuration>
                         <useModulePath>false</useModulePath>
+                    </configuration>
+                </plugin>
+                <!-- Plugin JaCoCo pour la couverture de code -->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.11</version> <!-- Utilise la dernière version stable -->
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Plugin OWASP Dependency-Check -->
+                <plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>8.4.0</version> <!-- Utilise la dernière version stable -->
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <!-- Optionnel : Exclure certains fichiers ou dépendances -->
+                        <suppressionFiles>
+                            <suppressionFile>src/main/resources/dependency-check-suppression.xml</suppressionFile>
+                        </suppressionFiles>
+                        <!-- Optionnel : Niveau de gravité minimum pour échouer la build -->
+                        <failBuildOnCVSS>7</failBuildOnCVSS>
                     </configuration>
                 </plugin>
             </plugins>

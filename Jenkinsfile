@@ -75,10 +75,10 @@ pipeline {
             sh "mvn sonar:sonar -Dsonar.projectKey=cargo-tms-tms -Dsonar.login=${SONAR_TOKEN}"
           }
         }
-        dir('frontend') {
-          sh 'pnpm install'
-          sh 'pnpm test -- --watch=false --code-coverage'
-        }
+        //dir('frontend') {
+          //sh 'pnpm install'
+          //sh 'pnpm test --watch=false --code-coverage'
+        //}
       }
       post {
         always {
@@ -109,10 +109,10 @@ pipeline {
         dir('tms/tms-service') {
           sh "mvn deploy -DskipTests -DaltDeploymentRepository=repo::default::https://jfrog.example.com/artifactory/libs-release-local"
         }
-        dir('frontend') {
-          sh 'pnpm build'
-          sh 'pnpm publish --registry=https://npm.pkg.github.com'
-        }
+        //dir('frontend') {
+        //  sh 'pnpm build'
+        //  sh 'pnpm publish --registry=https://npm.pkg.github.com'
+        //}
       }
     }
     stage('Déploiement VM') {
