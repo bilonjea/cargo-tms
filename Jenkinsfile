@@ -41,8 +41,9 @@ pipeline {
         dir('tms') {
           sh 'mvn spotbugs:spotbugs'
           recordIssues tool: spotBugs()
-          sh 'mvn compile compiler:compile warnings:warn'
-          recordIssues tool: mavenConsole()
+          // TODO add the pluging but it include into spotbugs
+          //Tsh 'mvn compile compiler:compile warnings:warn'
+          //recordIssues tool: mavenConsole()
         }
       }
       post {
