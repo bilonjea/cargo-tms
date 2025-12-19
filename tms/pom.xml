@@ -133,6 +133,32 @@
     <build>
         <pluginManagement>
             <plugins>
+                <!-- SpotBugs Plugin (hérité par tous les modules) -->
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>4.8.3</version>
+                    <configuration>
+                        <effort>Max</effort>
+                        <threshold>Low</threshold>
+                        <xmlOutput>true</xmlOutput>
+                        <failOnError>false</failOnError>
+                        <includeTests>false</includeTests>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>spotbugs</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- SonarQube Plugin (hérité par tous les modules) -->
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.10.0.2594</version>
+                </plugin>
                 <!-- Compiler -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
