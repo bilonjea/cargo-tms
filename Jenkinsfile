@@ -21,7 +21,7 @@ pipeline {
         dir('contracts-api') {
           sh 'mvn clean install'
         }
-        dir('tms/tms-service') {
+        dir('tms') {
           sh 'mvn clean package'
         }
       }
@@ -38,7 +38,7 @@ pipeline {
           sh 'mvn spotbugs:spotbugs'
           recordIssues tool: spotBugs()
         }
-        dir('tms/tms-service') {
+        dir('tms') {
           sh 'mvn spotbugs:spotbugs'
           recordIssues tool: spotBugs()
           sh 'mvn compile compiler:compile warnings:warn'
@@ -61,7 +61,7 @@ pipeline {
             sh "mvn sonar:sonar -Dsonar.projectKey=cargo-tms-contracts-api -Dsonar.login=${SONAR_TOKEN}"
           }
         }
-        dir('tms/tms-service') {
+        dir('tms') {
           sh 'mvn test jacoco:report'
           jacoco(execPattern: '**/target/jacoco.exec')
           withSonarQubeEnv('SonarQube-Server') {
@@ -99,7 +99,7 @@ pipeline {
         dir('contracts-api') {
           sh "mvn deploy -DskipTests -DaltDeploymentRepository=repo::default::https://jfrog.example.com/artifactory/libs-release-local"
         }
-        dir('tms/tms-service') {
+        dir('tms') {
           sh "mvn deploy -DskipTests -DaltDeploymentRepository=repo::default::https://jfrog.example.com/artifactory/libs-release-local"
         }
         //dir('frontend') {
@@ -119,7 +119,7 @@ pipeline {
       steps {
         sh 'jmeter -n -t tests/performance.jmx -l results.jtl -e -o reports/'
         archiveArtifacts artifacts: 'reports/**', fingerprint: true
-        dir('tms/tms-service') {
+        dir('tms') {
           sh 'mvn org.owasp:dependency-check-maven:check'
           dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
         }
