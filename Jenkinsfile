@@ -69,7 +69,7 @@ pipeline {
 	}
 	post {
 		always {
-			archiveArtifacts artifacts: 'contracts-api/target/*.jar', fingerprint: true, allowemptyarchive: true
+			archiveArtifacts artifacts: 'contracts-api/target/*.jar', fingerprint: true, allowEmptyArchive: true
 			echo "pipeline terminé pour la branche : ${env.branch_name}"
 		}
 	}
