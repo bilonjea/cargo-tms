@@ -46,12 +46,12 @@ pipeline {
           //recordIssues tool: mavenConsole()
         }
       }
-      post {
-        failure {
-          echo "Des bugs critiques ont été détectés – Corriger avant de continuer."
-          script { currentBuild.result = 'FAILURE' }
-        }
-      }
+       //post {
+         //failure {
+          // echo "Des bugs critiques ont été détectés – Corriger avant de continuer."
+           //script { currentBuild.result = 'FAILURE' }
+         //}
+       //}
     }
     stage('Tests & Analyse SonarQube') {
       steps {
