@@ -56,7 +56,7 @@ pipeline {
 
 		stage('build contracts-api (feature/*)') {
 			when {
-				expression { env.branch_name.startsWith('feature/*') }
+				expression { env.branch_name.startsWithAny('feature/*') }
 			}
 			steps {
 				echo "build contracts-api pour une branche feature/*"
@@ -69,7 +69,7 @@ pipeline {
 	}
 	post {
 		always {
-			archiveartifacts artifacts: 'contracts-api/target/*.jar', fingerprint: true, allowemptyarchive: true
+			archiveArtifacts artifacts: 'contracts-api/target/*.jar', fingerprint: true, allowemptyarchive: true
 			echo "pipeline terminé pour la branche : ${env.branch_name}"
 		}
 	}
